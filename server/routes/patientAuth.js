@@ -20,8 +20,10 @@ router.post('/register', async (req, res)=>{
             error: error.message
         });
 
-        const {patientName, email, password} = value;
-
+        const { firstName, lastName, phoneNumber, gender, 
+                dob, email, password, confirmPassword
+                } = value;
+        
         let user = await Patient.findOne({email});
 
         if (user) return res.status(400).json({
@@ -29,14 +31,24 @@ router.post('/register', async (req, res)=>{
             message:"User already exist!"
         });
 
+        if (password != confirmPassword) 
+            return res.status(500).json({
+                success: false,
+                message: "Your password and confirm password doesn't match."
+            });
+
         // Encrypting password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
         user = await Patient.create({
-            patientName,
+            firstName,
+            lastName,
             email,
             password: hashedPassword,
+            phoneNumber,
+            gender,
+            dob,
         });
 
         res.status(201).json({

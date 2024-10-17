@@ -24,12 +24,12 @@ const doctorSchema = new mongoose.Schema({
 
     speciality: {
         type: String,
-        default: " "
+        required: true,
     },
 },
     { timestamps: true},
 );
 
-const Doctor = mongoose.model("doctor", doctorSchema);
+const Doctor = mongoose.model("Doctor", doctorSchema);
 
 export default Doctor;

@@ -9,6 +9,22 @@ export const loginSchema = Joi.object({
     
 export const registerSchema = loginSchema.keys({
 
-    patientName: Joi.string().required(),
+    firstName: Joi.string().required(),
 
+    lastName: Joi.string().required(),
+
+    confirmPassword: Joi.string().required(),
+
+    gender: Joi.string().required(),
+
+    phoneNumber: Joi.string()
+        .pattern(/^\+?([0-9]{2,3})?[-. ]?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)
+        .required()
+        .messages({
+        'string.pattern.base': 'Phone number must be in a valid format (e.g., +1-234-567-8900 or 2345678900)',
+        'string.empty': 'Phone number cannot be empty',
+        'any.required': 'Phone number is required'
+        }),
+
+    dob: Joi.string().required(),
 });

@@ -6,9 +6,14 @@ const patientSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
     },
 
-    patientName: {
+    firstName: {
         type: String,
         required: true
+    },
+
+    lastName: {
+        type: String,
+        required: true,
     },
 
     email: {
@@ -22,14 +27,35 @@ const patientSchema = new mongoose.Schema({
         required: true,
     },
 
+    confirmPassword: {
+        type: String,
+        required: true,
+    },
+
+    phoneNumber: {
+        type: String,
+        required: true,
+    },
+
+    gender: {
+        type: String,
+        required: true,
+    },
+
+    dob: {
+        type: String,
+        required: true,
+    },
+
     doctorId: {
         type: mongoose.Schema.Types.ObjectId,
         default: null,
+        ref: "Doctor"
     }
 },
     { timestamps: true},
 );
 
-const Patient = mongoose.model("patient", patientSchema);
+const Patient = mongoose.model("Patient", patientSchema);
 
 export default Patient;
