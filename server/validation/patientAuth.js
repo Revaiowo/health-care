@@ -9,6 +9,6 @@ export const loginSchema = Joi.object({
     
 export const registerSchema = loginSchema.keys({
 
-    displayName: Joi.string().required(),
+    patientName: Joi.string().required(),
 
 });

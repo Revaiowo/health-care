@@ -2,9 +2,9 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-import User from '../models/user.js'
+import Patient from '../models/patient.js';
 import { authenticateUser } from "../middleware/auth.middleware.js";
-import { registerSchema, loginSchema } from "../validation/auth.js";
+import { registerSchema, loginSchema } from "../validation/patientAuth.js";
 
 
 const router = express.Router();
@@ -20,9 +20,9 @@ router.post('/register', async (req, res)=>{
             error: error.message
         });
 
-        const {displayName, email, password} = value;
+        const {patientName, email, password} = value;
 
-        let user = await User.findOne({email});
+        let user = await Patient.findOne({email});
 
         if (user) return res.status(400).json({
             success: false,
@@ -33,8 +33,8 @@ router.post('/register', async (req, res)=>{
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        user = await User.create({
-            displayName,
+        user = await Patient.create({
+            patientName,
             email,
             password: hashedPassword,
         });
@@ -67,7 +67,7 @@ router.post('/login', async (req, res)=>{
 
         const { email, password } = value;
 
-        const user = await User.findOne({email});
+        const user = await Patient.findOne({email});
 
         // Confirm password
         const isPasswordCorrect = await bcrypt.compare(password, user?.password || ' ');
@@ -116,13 +116,13 @@ router.post('/logout', authenticateUser, async (req, res)=>{
 
     try {
         const userId = req.userId
-        const user = await User.findOne({_id: userId});
+        const user = await Patient.findOne({_id: userId});
         
         res.clearCookie('token');
 
         res.status(200).json({
             success: true,
-            message: `Logged you out, ${user.displayName}!`   
+            message: `Logged you out, ${user.patientName}!`   
         })
         
     } catch (error) {

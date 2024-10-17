@@ -3,10 +3,9 @@ import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 import cors from 'cors';
 
-import authRouter from "./routes/auth.js";
-import messageRouter from "./routes/message.js"
-import userRouter from './routes/user.js'
-import roomRouter from './routes/room.js'
+import patientAuthRouter from './routes/patientAuth.js'
+import doctorAuthRouter from './routes/doctorAuth.js'
+import selectDoctorRouter from './routes/selectDoctor.js';
 import { connectMongoose } from "./db/database.js";
 
 const PORT = process.env.PORT || 3000;
@@ -23,10 +22,9 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api/auth', authRouter);
-app.use('/api/message', messageRouter);
-app.use('/api/room', roomRouter)
-app.use('/api', userRouter);
+app.use('/api/auth/patient', patientAuthRouter);
+app.use('/api/auth/doctor', doctorAuthRouter);
+app.use('/api/selectDoctor', selectDoctorRouter);
 
 app.listen(PORT, ()=>{
 
